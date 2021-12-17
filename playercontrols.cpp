@@ -71,7 +71,6 @@ PlayerControls::PlayerControls(QWidget *parent)
 {
     playButton = new QToolButton(this);
     playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-
     connect(playButton, SIGNAL(clicked()), this, SLOT(playClicked()));
 
     stopButton = new QToolButton(this);
