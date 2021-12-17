@@ -72,9 +72,9 @@ private:
     QLabel *coverLabel;
     QSlider *slider;
     QLabel *labelDuration;
-    //QPushButton *fullScreenButton;
-    //QPushButton *colorButton;
-    //QDialog *colorDialog;
+    QPushButton *fullScreenButton;
+    QPushButton *colorButton;
+    QDialog *colorDialog;
 
     PlaylistModel *playlistModel;
     QAbstractItemView *playlistView;

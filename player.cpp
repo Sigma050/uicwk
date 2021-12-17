@@ -16,7 +16,7 @@ Player::Player(QWidget *parent)
     , videoWidget(0)
     , coverLabel(0)
     , slider(0)
-    //, colorDialog(0)
+    , colorDialog(0)
 {
 //! [create-objs]
     player = new QMediaPlayer(this);
@@ -81,12 +81,12 @@ Player::Player(QWidget *parent)
     connect(player, SIGNAL(volumeChanged(int)), controls, SLOT(setVolume(int)));
     connect(player, SIGNAL(mutedChanged(bool)), controls, SLOT(setMuted(bool)));
 
-//    fullScreenButton = new QPushButton(tr("FullScreen"), this);
-//    fullScreenButton->setCheckable(true);
+    fullScreenButton = new QPushButton(tr("FullScreen"), this);
+    fullScreenButton->setCheckable(true);
 
-//    colorButton = new QPushButton(tr("Color Options..."), this);
-//    colorButton->setEnabled(false);
-//    connect(colorButton, SIGNAL(clicked()), this, SLOT(showColorDialog()));
+    colorButton = new QPushButton(tr("Color Options..."), this);
+    colorButton->setEnabled(false);
+    connect(colorButton, SIGNAL(clicked()), this, SLOT(showColorDialog()));
 
     QBoxLayout *displayLayout = new QHBoxLayout;
     displayLayout->addWidget(videoWidget, 2);
@@ -98,8 +98,8 @@ Player::Player(QWidget *parent)
     controlLayout->addStretch(1);
     controlLayout->addWidget(controls);
     controlLayout->addStretch(1);
-   // controlLayout->addWidget(fullScreenButton);
-    //controlLayout->addWidget(colorButton);
+    controlLayout->addWidget(fullScreenButton);
+    controlLayout->addWidget(colorButton);
 
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(displayLayout);
@@ -108,7 +108,7 @@ Player::Player(QWidget *parent)
     hLayout->addWidget(labelDuration);
     layout->addLayout(hLayout);
     layout->addLayout(controlLayout);
-    //layout->addLayout(histogramLayout);
+
 
     setLayout(layout);
 
@@ -120,8 +120,8 @@ Player::Player(QWidget *parent)
         controls->setEnabled(false);
         playlistView->setEnabled(false);
         openButton->setEnabled(false);
-        //colorButton->setEnabled(false);
-        //fullScreenButton->setEnabled(false);
+        colorButton->setEnabled(false);
+        fullScreenButton->setEnabled(false);
     }
 
     metaDataChanged();
@@ -282,22 +282,22 @@ void Player::bufferingProgress(int progress)
 
 void Player::videoAvailableChanged(bool available)
 {
-//    if (!available) {
-//        disconnect(fullScreenButton, SIGNAL(clicked(bool)),
-//                    videoWidget, SLOT(setFullScreen(bool)));
-//        disconnect(videoWidget, SIGNAL(fullScreenChanged(bool)),
-//                fullScreenButton, SLOT(setChecked(bool)));
-//        videoWidget->setFullScreen(false);
-//    } else {
-//        connect(fullScreenButton, SIGNAL(clicked(bool)),
-//                videoWidget, SLOT(setFullScreen(bool)));
-//        connect(videoWidget, SIGNAL(fullScreenChanged(bool)),
-//                fullScreenButton, SLOT(setChecked(bool)));
+    if (!available) {
+        disconnect(fullScreenButton, SIGNAL(clicked(bool)),
+                    videoWidget, SLOT(setFullScreen(bool)));
+        disconnect(videoWidget, SIGNAL(fullScreenChanged(bool)),
+                fullScreenButton, SLOT(setChecked(bool)));
+        videoWidget->setFullScreen(false);
+    } else {
+        connect(fullScreenButton, SIGNAL(clicked(bool)),
+                videoWidget, SLOT(setFullScreen(bool)));
+        connect(videoWidget, SIGNAL(fullScreenChanged(bool)),
+                fullScreenButton, SLOT(setChecked(bool)));
 
-//        if (fullScreenButton->isChecked())
-//            videoWidget->setFullScreen(true);
-//    }
-//    colorButton->setEnabled(available);
+        if (fullScreenButton->isChecked())
+            videoWidget->setFullScreen(true);
+    }
+    colorButton->setEnabled(available);
 }
 
 void Player::setTrackInfo(const QString &info)
@@ -339,47 +339,47 @@ void Player::updateDurationInfo(qint64 currentInfo)
 
 void Player::showColorDialog()
 {
-//    if (!colorDialog) {
-//        QSlider *brightnessSlider = new QSlider(Qt::Horizontal);
-//        brightnessSlider->setRange(-100, 100);
-//        brightnessSlider->setValue(videoWidget->brightness());
-//        connect(brightnessSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setBrightness(int)));
-//        connect(videoWidget, SIGNAL(brightnessChanged(int)), brightnessSlider, SLOT(setValue(int)));
+    if (!colorDialog) {
+        QSlider *brightnessSlider = new QSlider(Qt::Horizontal);
+        brightnessSlider->setRange(-100, 100);
+        brightnessSlider->setValue(videoWidget->brightness());
+        connect(brightnessSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setBrightness(int)));
+        connect(videoWidget, SIGNAL(brightnessChanged(int)), brightnessSlider, SLOT(setValue(int)));
 
-//        QSlider *contrastSlider = new QSlider(Qt::Horizontal);
-//        contrastSlider->setRange(-100, 100);
-//        contrastSlider->setValue(videoWidget->contrast());
-//        connect(contrastSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setContrast(int)));
-//        connect(videoWidget, SIGNAL(contrastChanged(int)), contrastSlider, SLOT(setValue(int)));
+        QSlider *contrastSlider = new QSlider(Qt::Horizontal);
+        contrastSlider->setRange(-100, 100);
+        contrastSlider->setValue(videoWidget->contrast());
+        connect(contrastSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setContrast(int)));
+        connect(videoWidget, SIGNAL(contrastChanged(int)), contrastSlider, SLOT(setValue(int)));
 
-//        QSlider *hueSlider = new QSlider(Qt::Horizontal);
-//        hueSlider->setRange(-100, 100);
-//        hueSlider->setValue(videoWidget->hue());
-//        connect(hueSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setHue(int)));
-//        connect(videoWidget, SIGNAL(hueChanged(int)), hueSlider, SLOT(setValue(int)));
+        QSlider *hueSlider = new QSlider(Qt::Horizontal);
+        hueSlider->setRange(-100, 100);
+        hueSlider->setValue(videoWidget->hue());
+        connect(hueSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setHue(int)));
+        connect(videoWidget, SIGNAL(hueChanged(int)), hueSlider, SLOT(setValue(int)));
 
-//        QSlider *saturationSlider = new QSlider(Qt::Horizontal);
-//        saturationSlider->setRange(-100, 100);
-//        saturationSlider->setValue(videoWidget->saturation());
-//        connect(saturationSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setSaturation(int)));
-//        connect(videoWidget, SIGNAL(saturationChanged(int)), saturationSlider, SLOT(setValue(int)));
+        QSlider *saturationSlider = new QSlider(Qt::Horizontal);
+        saturationSlider->setRange(-100, 100);
+        saturationSlider->setValue(videoWidget->saturation());
+        connect(saturationSlider, SIGNAL(sliderMoved(int)), videoWidget, SLOT(setSaturation(int)));
+        connect(videoWidget, SIGNAL(saturationChanged(int)), saturationSlider, SLOT(setValue(int)));
 
-//        QFormLayout *layout = new QFormLayout;
-//        layout->addRow(tr("Brightness"), brightnessSlider);
-//        layout->addRow(tr("Contrast"), contrastSlider);
-//        layout->addRow(tr("Hue"), hueSlider);
-//        layout->addRow(tr("Saturation"), saturationSlider);
+        QFormLayout *layout = new QFormLayout;
+        layout->addRow(tr("Brightness"), brightnessSlider);
+        layout->addRow(tr("Contrast"), contrastSlider);
+        layout->addRow(tr("Hue"), hueSlider);
+        layout->addRow(tr("Saturation"), saturationSlider);
 
-//        QPushButton *button = new QPushButton(tr("Close"));
-//        layout->addRow(button);
+        QPushButton *button = new QPushButton(tr("Close"));
+        layout->addRow(button);
 
-//        colorDialog = new QDialog(this);
-//        colorDialog->setWindowTitle(tr("Color Options"));
-//        colorDialog->setLayout(layout);
+        colorDialog = new QDialog(this);
+        colorDialog->setWindowTitle(tr("Color Options"));
+        colorDialog->setLayout(layout);
 
-//        connect(button, SIGNAL(clicked()), colorDialog, SLOT(close()));
-//    }
-//    colorDialog->show();
+        connect(button, SIGNAL(clicked()), colorDialog, SLOT(close()));
+    }
+    colorDialog->show();
 }
 
 //void Player::clearHistogram()
