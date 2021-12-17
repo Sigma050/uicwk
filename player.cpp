@@ -10,11 +10,12 @@
 #include <QAudioProbe>
 #include <QMediaMetaData>
 #include <QtWidgets>
-
+#include <QLabel>
 Player::Player(QWidget *parent)
     : QWidget(parent)
     , videoWidget(0)
     , coverLabel(0)
+    //, Tomeo(0)
     , slider(0)
     , colorDialog(0)
 {
@@ -22,6 +23,12 @@ Player::Player(QWidget *parent)
     player = new QMediaPlayer(this);
     // owned by PlaylistModel
     playlist = new QMediaPlaylist();
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/a.wmv"));
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/b.wmv"));
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/c.wmv"));
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/d.mp4"));
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/e.mp4"));
+    playlist->addMedia(QUrl::fromLocalFile("C:/Users/legion/Desktop/videos/f.mp4"));
     player->setPlaylist(playlist);
 //! [create-objs]
 
@@ -91,7 +98,25 @@ Player::Player(QWidget *parent)
     QBoxLayout *displayLayout = new QHBoxLayout;
     displayLayout->addWidget(videoWidget, 2);
     displayLayout->addWidget(playlistView);
-
+    playlistView->setMaximumWidth(80);
+    videoWidget->setMinimumSize(800,450);
+    QHBoxLayout *nav = new QHBoxLayout;
+    Tomeo = new QLabel;
+    blank = new QWidget;
+    blank->setMinimumSize(500,20);
+    Tomeo->setText("Tomeo");
+    Tomeo->setStyleSheet("background-color:white;");
+    Tomeo->setMaximumSize(55,20);
+    Search = new QLabel;
+    Search->setText("Search");
+    Search->setStyleSheet("background-color:white;");
+    Search->setMinimumSize(80,20);
+    Name = new QLabel;
+    Name->setText("sc19jhs@leedsa.ac.uk");
+    nav->addWidget(Tomeo);
+    nav->addWidget(blank,1);
+    nav->addWidget(Name);
+    nav->addWidget(Search);
     QBoxLayout *controlLayout = new QHBoxLayout;
     controlLayout->setMargin(0);
     controlLayout->addWidget(openButton);
@@ -102,6 +127,7 @@ Player::Player(QWidget *parent)
     controlLayout->addWidget(colorButton);
 
     QBoxLayout *layout = new QVBoxLayout;
+    layout->addLayout(nav);
     layout->addLayout(displayLayout);
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->addWidget(slider);

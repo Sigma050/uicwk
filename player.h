@@ -75,7 +75,10 @@ private:
     QPushButton *fullScreenButton;
     QPushButton *colorButton;
     QDialog *colorDialog;
-
+    QLabel *Tomeo;
+    QLabel *Search;
+    QLabel *Name;
+    QWidget *blank;
     PlaylistModel *playlistModel;
     QAbstractItemView *playlistView;
     QString trackInfo;
