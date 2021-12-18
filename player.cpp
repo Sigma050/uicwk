@@ -96,27 +96,19 @@ Player::Player(QWidget *parent)
     connect(colorButton, SIGNAL(clicked()), this, SLOT(showColorDialog()));
 
     QBoxLayout *displayLayout = new QHBoxLayout;
+    QVBoxLayout *s = new QVBoxLayout;
+    b = new QLabel;
+    b->setStyleSheet("background-image: url(:/pic/doc/images/a.png);");
+    b->setMinimumSize(105,325);
+    s->addWidget(b);
+    s->addWidget(playlistView);
     displayLayout->addWidget(videoWidget, 2);
-    displayLayout->addWidget(playlistView);
-    playlistView->setMaximumWidth(80);
+    displayLayout->addLayout(s);
+    playlistView->setMaximumWidth(105);
     videoWidget->setMinimumSize(800,450);
-    QHBoxLayout *nav = new QHBoxLayout;
     Tomeo = new QLabel;
-    blank = new QWidget;
-    blank->setMinimumSize(500,20);
-    Tomeo->setText("Tomeo");
-    Tomeo->setStyleSheet("background-color:white;");
-    Tomeo->setMaximumSize(55,20);
-    Search = new QLabel;
-    Search->setText("Search");
-    Search->setStyleSheet("background-color:white;");
-    Search->setMinimumSize(80,20);
-    Name = new QLabel;
-    Name->setText("sc19jhs@leedsa.ac.uk");
-    nav->addWidget(Tomeo);
-    nav->addWidget(blank,1);
-    nav->addWidget(Name);
-    nav->addWidget(Search);
+    Tomeo->setStyleSheet("background-image: url(:/pic/doc/images/b.png);");
+    Tomeo->setMinimumSize(980,64);
     QBoxLayout *controlLayout = new QHBoxLayout;
     controlLayout->setMargin(0);
     controlLayout->addWidget(openButton);
@@ -125,9 +117,8 @@ Player::Player(QWidget *parent)
     controlLayout->addStretch(1);
     controlLayout->addWidget(fullScreenButton);
     controlLayout->addWidget(colorButton);
-
     QBoxLayout *layout = new QVBoxLayout;
-    layout->addLayout(nav);
+    layout->addWidget(Tomeo);
     layout->addLayout(displayLayout);
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->addWidget(slider);

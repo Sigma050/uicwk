@@ -76,8 +76,7 @@ private:
     QPushButton *colorButton;
     QDialog *colorDialog;
     QLabel *Tomeo;
-    QLabel *Search;
-    QLabel *Name;
+    QLabel *b;
     QWidget *blank;
     PlaylistModel *playlistModel;
     QAbstractItemView *playlistView;
